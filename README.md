@@ -6,11 +6,40 @@
 
 MLOps course practice project.
 
+## Установка и запуск
+
+Требования: Linux или macOS (на Windows — WSL), `make`, `curl`, `git`.
+Python и uv ставить заранее не нужно: `make setup` установит [uv](https://docs.astral.sh/uv/),
+если его нет, а uv сам скачает нужную версию Python (зафиксирована в `.python-version`).
+
+```bash
+git clone https://github.com/2made1ra/mlops-practice.git
+cd mlops-practice
+make setup   # поднять окружение с нуля
+make check   # прогнать все проверки
+```
+
+Доступные команды:
+
+| Команда        | Что делает                                                                          |
+|----------------|-------------------------------------------------------------------------------------|
+| `make setup`   | Ставит uv (если нет), Python и все зависимости из `uv.lock` в `.venv`               |
+| `make check`   | Проверяет стиль (`ruff check`, `ruff format --check`) и типы (`mypy`). Ничего не исправляет: код возврата 0 — ошибок нет, иначе — есть |
+| `make format`  | Автоматически исправляет стиль (изменяет файлы)                                     |
+| `make clean`   | Удаляет `__pycache__` и кеши инструментов                                            |
+| `make help`    | Список команд                                                                       |
+
+Окружение и зависимости:
+
+- зависимости описаны в `pyproject.toml`, точные версии зафиксированы в `uv.lock` (он закоммичен);
+- инструменты разработки (ruff, mypy, pre-commit) вынесены в группу `dev`;
+- добавить зависимость: `uv add <пакет>`, dev-зависимость: `uv add --dev <пакет>`;
+- запустить команду в окружении: `uv run <команда>`.
+
 ## Project Organization
 
 ```
-├── LICENSE            <- Open-source license if one is chosen
-├── Makefile           <- Makefile with convenience commands like `make data` or `make train`
+├── Makefile           <- Commands: `make setup`, `make check`, ...
 ├── README.md          <- The top-level README for developers using this project.
 ├── data
 │   ├── external       <- Data from third party sources.
@@ -18,7 +47,7 @@ MLOps course practice project.
 │   ├── processed      <- The final, canonical data sets for modeling.
 │   └── raw            <- The original, immutable data dump.
 │
-├── docs               <- A default mkdocs project; see www.mkdocs.org for details
+├── docs               <- Project documentation.
 │
 ├── models             <- Trained and serialized models, model predictions, or model summaries
 │
@@ -26,36 +55,19 @@ MLOps course practice project.
 │                         the creator's initials, and a short `-` delimited description, e.g.
 │                         `1.0-jqp-initial-data-exploration`.
 │
-├── pyproject.toml     <- Project configuration file with package metadata for 
-│                         mlops_practice and configuration for tools like black
+├── pyproject.toml     <- Project metadata, dependencies and tool configuration (ruff, mypy)
+├── uv.lock            <- Locked dependency versions (committed)
+├── .python-version    <- Pinned Python version used by uv
 │
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
 │   └── figures        <- Generated graphics and figures to be used in reporting
 │
-├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-│                         generated with `pip freeze > requirements.txt`
-│
-├── setup.cfg          <- Configuration file for flake8
-│
-└── mlops_practice   <- Source code for use in this project.
-    │
-    ├── __init__.py             <- Makes mlops_practice a Python module
-    │
-    ├── config.py               <- Store useful variables and configuration
-    │
-    ├── dataset.py              <- Scripts to download or generate data
-    │
-    ├── features.py             <- Code to create features for modeling
-    │
-    ├── modeling                
-    │   ├── __init__.py 
-    │   ├── predict.py          <- Code to run model inference with trained models          
-    │   └── train.py            <- Code to train models
-    │
-    └── plots.py                <- Code to create visualizations
+└── mlops_practice     <- Source code for use in this project.
+    ├── __init__.py    <- Makes mlops_practice a Python module
+    ├── metrics.py     <- Descriptive statistics
+    └── preprocessing.py <- Feature scaling helpers
 ```
 
 --------
-
