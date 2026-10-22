@@ -23,7 +23,7 @@ make check   # прогнать все проверки
 
 | Команда        | Что делает                                                                          |
 |----------------|-------------------------------------------------------------------------------------|
-| `make setup`   | Ставит uv (если нет), Python и все зависимости из `uv.lock` в `.venv`               |
+| `make setup`   | Ставит uv (если нет), Python и все зависимости из `uv.lock` в `.venv`, устанавливает git-хуки pre-commit |
 | `make check`   | Проверяет стиль (`ruff check`, `ruff format --check`) и типы (`mypy`). Ничего не исправляет: код возврата 0 — ошибок нет, иначе — есть |
 | `make format`  | Автоматически исправляет стиль (изменяет файлы)                                     |
 | `make clean`   | Удаляет `__pycache__` и кеши инструментов                                            |
@@ -35,6 +35,15 @@ make check   # прогнать все проверки
 - инструменты разработки (ruff, mypy, pre-commit) вынесены в группу `dev`;
 - добавить зависимость: `uv add <пакет>`, dev-зависимость: `uv add --dev <пакет>`;
 - запустить команду в окружении: `uv run <команда>`.
+
+Проверки кода:
+
+- **ruff** — линтер и форматтер (длина строки 99, сверх правил по умолчанию включены `E501`,
+  `B`, `I`, `SIM`, `UP`); **mypy** — типы в строгом режиме. Настройки — в `pyproject.toml`;
+- **pre-commit** (`.pre-commit-config.yaml`) на каждом коммите запускает ruff и mypy и
+  вычищает вывод ячеек ноутбуков (`nbstripout`). Коммит с ошибками блокируется.
+  Прогнать хуки вручную по всем файлам: `uv run pre-commit run --all-files`;
+- отладочный скрипт для проверки инструментов: `uv run python scripts/debug_tools.py 1 2 3 10`.
 
 ## Project Organization
 
@@ -59,13 +68,19 @@ make check   # прогнать все проверки
 ├── uv.lock            <- Locked dependency versions (committed)
 ├── .python-version    <- Pinned Python version used by uv
 │
+├── .pre-commit-config.yaml <- Git hooks: ruff, mypy, nbstripout
+│
 ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
 │
 ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
 │   └── figures        <- Generated graphics and figures to be used in reporting
 │
+├── scripts
+│   └── debug_tools.py <- Debug script for trying out the linter and type checker
+│
 └── mlops_practice     <- Source code for use in this project.
     ├── __init__.py    <- Makes mlops_practice a Python module
+    ├── py.typed       <- Marks the package as typed (PEP 561)
     ├── metrics.py     <- Descriptive statistics
     └── preprocessing.py <- Feature scaling helpers
 ```

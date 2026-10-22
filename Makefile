@@ -11,11 +11,12 @@ UV ?= $(shell command -v uv 2>/dev/null || echo $(HOME)/.local/bin/uv)
 #################################################################################
 
 
-## Set up the environment from scratch: install uv if missing, Python and all deps
+## Set up the environment from scratch: uv, Python, all deps and git pre-commit hooks
 .PHONY: setup
 setup:
 	@command -v $(UV) >/dev/null 2>&1 || curl -LsSf https://astral.sh/uv/install.sh | sh
 	$(UV) sync --locked
+	$(UV) run --locked pre-commit install --install-hooks
 
 
 ## Run all checks (style and types) without modifying files
