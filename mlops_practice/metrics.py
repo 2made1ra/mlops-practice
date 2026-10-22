@@ -4,7 +4,7 @@
 def mean(values: list[float]) -> float:
     """Return the arithmetic mean of ``values``."""
     if not values:
-        raise ValueError("mean() requires at least one value")
+        raise ValueError("cannot compute mean of an empty list")
     return sum(values) / len(values)
 
 
