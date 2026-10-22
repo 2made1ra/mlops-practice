@@ -9,18 +9,23 @@ description = "MLOps course practice project."
 authors = [
   { name = "Andrey Zhunev" },
 ]
-
 readme = "README.md"
 classifiers = [
     "Programming Language :: Python :: 3",
-    
-]
-dependencies = [
-    "pip",
-    "python-dotenv",
-    "ruff",
+    "Programming Language :: Python :: 3.12",
 ]
 requires-python = "~=3.12.0"
+dependencies = [
+    "python-dotenv",
+]
+
+# Dev tooling is pinned exactly: the same versions must be used by pre-commit hooks.
+[dependency-groups]
+dev = [
+    "mypy==2.4.0",
+    "pre-commit==4.7.0",
+    "ruff==0.17.2",
+]
 
 
 [tool.ruff]
@@ -35,3 +40,6 @@ extend-select = ["I"]  # Add import sorting
 known-first-party = ["mlops_practice"]
 force-sort-within-sections = true
 
+[tool.mypy]
+python_version = "3.12"
+files = ["mlops_practice"]
