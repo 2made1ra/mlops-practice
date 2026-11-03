@@ -101,6 +101,7 @@ instance/
 
 # MkDocs documentation
 docs/site/
+docs/internal
 
 # PyBuilder
 .pybuilder/
