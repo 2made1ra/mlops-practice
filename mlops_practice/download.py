@@ -17,7 +17,7 @@ if TYPE_CHECKING:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser()
+    parser = argparse.ArgumentParser(description=__doc__)
 
     parser.add_argument("--bucket", default=os.environ.get("S3_BUCKET"), help="set bucket name")
     parser.add_argument("--key", default="raw/cifar-10-python.tar.gz", help="target object key")
