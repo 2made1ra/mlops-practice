@@ -16,15 +16,19 @@ classifiers = [
 ]
 requires-python = "~=3.12.0"
 dependencies = [
+    "boto3>=1.43.123",
     "python-dotenv",
+    "tqdm>=4.70.1",
 ]
 
 # Dev tooling is pinned exactly: the same versions must be used by pre-commit hooks.
 [dependency-groups]
 dev = [
+    "boto3-stubs[s3]>=1.43.123",
     "mypy==2.4.0",
     "pre-commit==4.7.0",
     "ruff==0.17.2",
+    "types-tqdm>=4.70.0.20261102",
 ]
 
 
