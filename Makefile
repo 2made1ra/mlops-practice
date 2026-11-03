@@ -34,6 +34,20 @@ format:
 	$(UV) run --locked ruff format
 
 
+## Build the processed dataset from raw/ and publish it to S3 (VERSION, SEED, VAL_SIZE)
+VERSION ?= v1
+SEED ?= 42
+VAL_SIZE ?= 5000
+.PHONY: data
+data:
+	$(UV) run --locked python -m mlops_practice.publish --version $(VERSION) --check
+	$(UV) run --locked python -m mlops_practice.download
+	$(UV) run --locked python -m mlops_practice.convert
+	$(UV) run --locked python -m mlops_practice.split --val-size $(VAL_SIZE) --seed $(SEED)
+	$(UV) run --locked python -m mlops_practice.stats
+	$(UV) run --locked python -m mlops_practice.publish --version $(VERSION)
+
+
 ## Delete all compiled Python files and tool caches
 .PHONY: clean
 clean:
