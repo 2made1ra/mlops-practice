@@ -34,6 +34,26 @@ format:
 	$(UV) run --locked ruff format
 
 
+## Start the local S3 storage and create the bucket (creates .env from .env.example if missing)
+.PHONY: s3-up
+s3-up:
+	@test -f .env || { cp .env.example .env && echo "Created .env from .env.example"; }
+	docker compose up -d --wait s3
+	docker compose run --rm create-bucket
+
+
+## Stop the local S3 storage (data stays in the named volume)
+.PHONY: s3-down
+s3-down:
+	docker compose down
+
+
+## Download the CIFAR-10 archive and store it unchanged in S3 raw/ (idempotent)
+.PHONY: ingest
+ingest:
+	$(UV) run --locked python -m mlops_practice.ingest
+
+
 ## Build the processed dataset from raw/ and publish it to S3 (VERSION, SEED, VAL_SIZE)
 VERSION ?= v1
 SEED ?= 42
