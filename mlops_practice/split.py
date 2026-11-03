@@ -26,6 +26,12 @@ def parse_args() -> argparse.Namespace:
         default="data/processed/cifar10",
         help="dataset root; train/val go to <out>/annotations/",
     )
+    parser.add_argument(
+        "--params",
+        type=Path,
+        default="data/interim/cifar10/split_params.json",
+        help="where to record val-size and seed for the manifest",
+    )
     parser.add_argument("--val-size", type=int, default=5000, help="images moved to val")
     parser.add_argument(
         "--seed", type=int, default=42, help="need to fix seed for correct repeating"
@@ -90,6 +96,8 @@ def main() -> None:
     annotations = args.out / "annotations"
     write_annotations(Annotations(classes=classes, images=train), annotations / "train.json")
     write_annotations(Annotations(classes=classes, images=val), annotations / "val.json")
+    params = {"val_size": args.val_size, "seed": args.seed}
+    args.params.write_text(json.dumps(params, indent=2) + "\n", encoding="utf-8")
 
     print(
         f"Split {len(records)} train images: {len(train)} train / {len(val)} val "
