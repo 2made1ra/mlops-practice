@@ -21,6 +21,8 @@ repos:
           - boto3-stubs[s3]==1.43.123
           - tqdm==4.70.1
           - types-tqdm==4.70.0.20261102
+          - numpy==2.5.4
+          - pillow==13.0.0
 
   - repo: https://github.com/kynan/nbstripout
     rev: 0.9.1
