@@ -28,7 +28,7 @@ def parse_args() -> argparse.Namespace:
     args = parser.parse_args()
 
     if not args.bucket:
-        args.error("--bucket is required (or set S3_BUCKET in .env)")
+        parser.error("--bucket is required (or set S3_BUCKET in .env)")
 
     return args
 
