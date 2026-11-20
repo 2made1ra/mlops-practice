@@ -1,0 +1,7 @@
+*
+!pyproject.toml
+!uv.lock
+!mlops_practice/
+!mlops_practice/**/*.py
+!configs/
+!configs/**/*.json
