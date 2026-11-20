@@ -54,6 +54,28 @@ ingest:
 	$(UV) run --locked python -m mlops_practice.ingest
 
 
+## Build the training image and start S3 and the MLflow tracking server
+.PHONY: infra-up
+infra-up:
+	@test -f .env || cp .env.example .env
+	GIT_COMMIT="$$(git rev-parse HEAD)" docker compose build train mlflow
+	docker compose up -d --wait mlflow
+
+
+## Run the baseline and grid, starting a training container for each run
+CONFIG ?= configs/grid.json
+.PHONY: experiments
+experiments:
+	GIT_COMMIT="$$(git rev-parse HEAD)" docker compose build train
+	$(UV) run --locked python -m mlops_practice.grid "$(CONFIG)"
+
+
+## Stop the experiment infrastructure and keep datasets, runs and models
+.PHONY: infra-down
+infra-down:
+	docker compose down
+
+
 ## Build the processed dataset from raw/ and publish it to S3 (VERSION, SEED, VAL_SIZE)
 VERSION ?= v1
 SEED ?= 42

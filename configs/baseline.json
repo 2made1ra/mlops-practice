@@ -1,0 +1,8 @@
+{
+  "experiment_name": "cifar10-v1",
+  "run_name": "linear",
+  "seed": 42,
+  "data": {"s3_path": "processed/cifar10/v1", "max_train_samples": 12000},
+  "model": {"type": "linear", "params": {}},
+  "train": {"epochs": 4, "batch_size": 128, "lr": 0.001}
+}

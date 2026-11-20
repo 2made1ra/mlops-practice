@@ -23,6 +23,10 @@ repos:
           - types-tqdm==4.70.0.20261102
           - numpy==2.5.4
           - pillow==13.0.0
+          - mlflow-skinny==3.16.0
+          - --extra-index-url=https://download.pytorch.org/whl/cpu
+          - "torch==2.15.0+cpu; sys_platform == 'linux'"
+          - "torch==2.15.0; sys_platform != 'linux'"
 
   - repo: https://github.com/kynan/nbstripout
     rev: 0.9.1
